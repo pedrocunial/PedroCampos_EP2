@@ -4,16 +4,23 @@ Created on Tue Mar 24 11:28:42 2015
 
 @author: Pedro
 """
+#Pedro Cunial Campos
 import random
 import turtle
 
-dic = ['São Paulo', 'São Bernardo do Campo', 'Baleia Azul', 'leão marinho', 'wikipedia','videojogo', 'equinócio', 'Estônia', 'cenozóico', 'tardígrado', 'covalente']
-i = 0
-for i in range(0,len(dic)):
-    dic[i] = dic[i].upper()
+dic = open('entrada.txt', encoding= 'utf-8')
+dic = dic.readlines()
+
+for i in range(len(dic)-1): #por algum motivo o meu programa estava criando um valor ' ' (vazio) 
+    dic[i] = dic[i].strip().upper()
+    if dic[i] == '': #deletando o espaço vazio, no entanto isso cria um problema com o valor 'estônia', que assume 'estônia\n'
+        del dic[i]
+    dic[i] = dic[i].strip().upper() #"reaplicando" o algoritmo para "limpar" o erro no valor 'estônia'
     
-p = random.choice(dic)
 print('Escolhas possíveis: ' ,dic)
+p = random.choice(dic)
+
+print(p)    
 
 window = turtle.Screen()    # cria uma janela
 window.bgcolor("white")
@@ -26,11 +33,25 @@ tartaruga.setpos(-200,0)
 tartaruga.pendown()
 tartaruga.color("orange")
 tartaruga.shape("turtle")
+tartaruga.fd(50)
+tartaruga.left(90)
+tartaruga.fd(200)
+tartaruga.right(90)
+tartaruga.fd(50)
+tartaruga.right(90)
+tartaruga.fd(30)
+tartaruga.pu()
+tartaruga.fd(170)
+tartaruga.left(90)
 
 for i in range(len(p)):
-    tartaruga.pendown()
-    tartaruga.fd(40)
-    tartaruga.penup()
-    tartaruga.fd(10)
+    if p[i] == ' ':
+        tartaruga.penup()
+        tartaruga.fd(13)
+    else:    
+        tartaruga.pendown()
+        tartaruga.fd(10)
+        tartaruga.penup()
+        tartaruga.fd(3)
 
 window.exitonclick()
