@@ -26,32 +26,64 @@ window = turtle.Screen()    # cria uma janela
 window.bgcolor("white")
 window.title("Jogo")
 
-tartaruga   = turtle.Turtle()  # Cria um objeto "desenhador"
-tartaruga.speed(5)  # define a velocidade
-tartaruga.penup()       # Remova e veja o que acontece
-tartaruga.setpos(-200,0)
-tartaruga.pendown()
-tartaruga.color("orange")
-tartaruga.shape("turtle")
-tartaruga.fd(50)
-tartaruga.left(90)
-tartaruga.fd(200)
-tartaruga.right(90)
-tartaruga.fd(50)
-tartaruga.right(90)
-tartaruga.fd(30)
-tartaruga.pu()
-tartaruga.fd(170)
-tartaruga.left(90)
+t   = turtle.Turtle()  # Cria um objeto "desenhador"
+t.speed(5)  # define a velocidade
+t.penup()       # Remova e veja o que acontece
+t.setpos(-200,0)
+t.pendown()
+t.color("orange")
+t.shape("turtle")
+t.fd(50)
+t.left(90)
+t.fd(200)
+t.right(90)
+t.fd(50)
+t.right(90)
+t.fd(30)
+t.pu()
+t.fd(170)
+t.left(90)
 
 for i in range(len(p)):
     if p[i] == ' ':
-        tartaruga.penup()
-        tartaruga.fd(13)
+        t.penup()
+        t.fd(13)
     else:    
-        tartaruga.pendown()
-        tartaruga.fd(10)
-        tartaruga.penup()
-        tartaruga.fd(3)
+        t.pendown()
+        t.fd(10)
+        t.penup()
+        t.fd(3)
 
+t.hideturtle()
+
+def cabeca():  #desenha cabeça
+    t.showturtle()
+    t.pu()
+    t.setpos(-100, 150)
+    t.pd()
+    t.circle(10)
+    t.pu
+    t.hideturtle()
+
+def corpo():
+    t.showturtle()
+    t.pu()
+    t.setpos(-100,150)
+    t.pd()
+    t.setpos(-100,120)
+    t.pu()
+    t.hideturtle()
+
+def braco_direito():
+    t.showturtle()
+    t.pu()
+    t.setpos(-100,140)
+    t.pd()
+    t.setpos(-70,110)
+    t.ht()
+    t.pu()    
+
+def braco_esquerdo():
+    
+    
 window.exitonclick()
