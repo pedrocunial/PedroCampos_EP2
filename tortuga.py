@@ -121,23 +121,49 @@ while replay == True:
         t.pu()
         t.ht()
         
+    def escrita(i,j):
+        t.setpos(-98 + 13*i, 0)
+        t.write(j)
+        
+    def tentativas():
+        t.setpos(-98 + 13*t)
+        
     jogo = True
     erro = 0
-def escrita(ind,j):
-    t.setpos(-100 + 13*ind, 0)
-    t.write(j)
-        
-    while jogo == True:
-        j = window.textinput("Jogada", "Escolha uma letra. Mas escolha rápido, você não quer ver o Billy morto...") 
-        j = j.upper()    
-        for i in range(p.count(j)):        
-            if j in p:
-                ind = p.index(j,ind)
-                escrita(ind,j)
-            else: 
-                erro += 1   #adiciona 1 ao contador de erros, que desenha as partes do boneco
+    acerto = 0
             
-        if erro == 1:
+    while jogo == True:        
+        aceita = False
+        
+        while aceita == False:     #loop caso a entrada não seja válida             
+            j = window.textinput("Jogada", "Escolha uma letra. \nMas escolha rápido, você não quer ver o Billy morto...") 
+            #linha acima é para a entrada da jogada
+            j = j.upper()   #correção da jogada para caixa alta
+            if len(j) > 1: #caso o usuário entre com mais de uma letra
+                tkinter.messagebox.showwarning('ERRO', 'Você digitou mais de uma letra, por favor, tente novamente')
+            else:
+                aceita = True   #sai do loop caso a entrada seja válida
+            
+        for i in range(len(p)):
+            if p[i] == j:
+                escrita(i,j)
+                acerto += 1
+            elif j == 'ã' and p[i] == 'a': #facilitando a vida dos brasileiros...
+                escrita(i,j)
+                acerto += 1
+            elif j == 'ô' and p[i] == 'o':
+                escrita(i,j)
+                acerto += 1
+            elif j == 'ó' and p[i] == 'o':
+                escrita(i,j)
+                acerto += 1
+            elif j == 'í' and p[i] == 'i':
+                escrita(i,j) 
+                acerto += 1                       
+            else:
+                erro += 1   #adiciona 1 ao contador de erros
+        
+        if erro == 1:   #if para impressão das partes do boneco (Billy) conforme o usuário erra
             cabeca()
         elif erro == 2:
             corpo()
@@ -150,7 +176,11 @@ def escrita(ind,j):
         elif erro == 6:
             perna_esquerda()
             jogo == False
-            replay = tkinter.messagebox.askyesno('Game Over', 'Você perdeu, deseja jogar novamente?')
+            replay = tkinter.messagebox.askyesno('Game Over', 'BILLY!!!!\n Você perdeu, deseja jogar novamente?')
+            t.clear()
+        elif acerto == len(p):
+            jogo == False
+            replay = tkinter.messagebox.askyesno('VITÓRIA', 'Billy foi salvo!\nDeseja jogar novamente?')
             t.clear()
             
             
