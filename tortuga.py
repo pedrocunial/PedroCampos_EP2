@@ -121,6 +121,8 @@ def media(lista):
         t.setpos(80, 200)
         t.pd()
         t.write('Média de acertos para vitória:' +x, font=('Arial', '12'))
+        
+invalidos = ['1','2','3','4','5','6','7','8','9','0','!','@','#','$',',','%','¨','&','*','(',')','_','-','=','+','§','¹','²','³','£','¢',';',':','/','\'','|','°','?','¬','.',',','<','>','^','~',']','[','`','´','}','º','ª','{','']
     
 while replay == True:
     t   = turtle.Turtle()  # Cria um objeto "desenhador"
@@ -168,10 +170,11 @@ while replay == True:
             esp = p.count(' ')  
                         
             if len(j) > 1: #caso o usuário entre com mais de uma letra
-                tkinter.messagebox.showwarning('ERRO', 'Você digitou mais de uma letra, por favor, tente novamente...\nOu não... Eu adoraria enforcar este humano...')
+                tkinter.messagebox.showerror('ERRO', 'Você digitou mais de uma letra, por favor, tente novamente...\nOu não... Eu adoraria enforcar este humano...')
             elif j in guesses:
-                tkinter.messagebox.showwarning('ERRO', 'Você já tentou essa letra, faça outra escolha!\nTEM GENTE TENTANDO MORRER AQUI!')
-            
+                tkinter.messagebox.showerror('ERRO', 'Você já tentou essa letra, faça outra escolha!\nTEM GENTE TENTANDO MORRER AQUI!')
+            elif j in invalidos:
+                tkinter.messagebox.showerror('ERRO', 'Você não sabe o que são letras?\Parece mais burro que o Billy!')
             else:
                 aceita = True   #sai do loop caso a entrada seja válida
                 guesses += [j]
@@ -202,10 +205,10 @@ while replay == True:
                 corpo()
                 tkinter.messagebox.showwarning('CUIDADO!', 'Nossa Billy, como você está magro!\nQuando foi a ultima vez que eu te dei comida?\nAh! Me lembrei! NUNCA! HAHAHAH')
             elif erro == 3:
-                braco_esquerdo()
+                braco_direito()
                 tkinter.messagebox.showwarning('CUIDADO!', 'Tudo bem, Billy era destro...\nEu acho.')
             elif erro == 4:
-                braco_direito()
+                braco_esquerdo()
                 tkinter.messagebox.showwarning('CUIDADO!', 'Problema resolvido!\nSem os braços ele não é mais destro.')
             elif erro == 5:
                 perna_direita()
