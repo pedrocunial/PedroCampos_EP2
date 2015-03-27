@@ -10,7 +10,7 @@ import turtle
 import tkinter
 import time
 replay = True
-
+le = [] #criando uma lista vazia para contar os erros por jogo para calcular o número médio de erros
 window = turtle.Screen()    # cria uma janela
 window.bgcolor("white")
 window.title("Jogo")
@@ -55,7 +55,7 @@ def corpo(): #desenha corpo (tronco)
     t.setpos(-100,120)
     t.pu()
     t.hideturtle()
-    time.sleep(2)
+    time.sleep(1)
 
 def braco_direito(): #desenha braço direito
     t.showturtle()
@@ -65,7 +65,7 @@ def braco_direito(): #desenha braço direito
     t.setpos(-70,110)
     t.ht()
     t.pu()
-    time.sleep(2)    
+    time.sleep(1)    
 
 def braco_esquerdo(): #desenha braço esquerdo
     t.st()
@@ -75,7 +75,7 @@ def braco_esquerdo(): #desenha braço esquerdo
     t.setpos(-130,110)
     t.ht()
     t.pu()
-    time.sleep(2)
+    time.sleep(1)
 
 def perna_esquerda(): #desenha perna esquerda
     t.st()
@@ -85,7 +85,7 @@ def perna_esquerda(): #desenha perna esquerda
     t.setpos(-120,75)
     t.pu()
     t.ht()
-    time.sleep(2)    
+    time.sleep(1)    
     
 def perna_direita(): #desenha perna direita
     t.st()
@@ -95,7 +95,7 @@ def perna_direita(): #desenha perna direita
     t.setpos(-80,75)
     t.pu()
     t.ht()
-    time.sleep(2)
+    time.sleep(1)
     
 def escrita(i,j):
     t.st()        
@@ -109,6 +109,18 @@ def tentativas(g,j):
     t.setpos(-98 + 13*g, -50)
     t.write(j)
     t.ht()
+
+def media(lista):
+    x = 0
+    if len(lista) > 0:  
+        for i in range(len(lista)):
+            x += lista[i]
+        x = x / len(lista)
+        x = str(x)
+        t.pu()
+        t.setpos(100, 200)
+        t.pd()
+        t.write('Média de acertos para vitória:' +x, font=('Arial', '12'))
     
 while replay == True:
     t   = turtle.Turtle()  # Cria um objeto "desenhador"
@@ -132,6 +144,7 @@ while replay == True:
     print('Escolhas possíveis: ' ,dic)
     p = random.choice(dic)
     
+    
     t.pu()
     print(p)    
     t.setpos(-200,0)
@@ -143,7 +156,8 @@ while replay == True:
     linhas(p)    
     t.hideturtle()
     guesses = [ ]
-            
+    media(le)
+        
     while jogo == True:  
         print("jogo true")
         aceita = False
@@ -181,7 +195,7 @@ while replay == True:
             elif j == 'I' and p[i] == 'Í':
                 escrita(i,p[i]) 
                 acerto += 1
-        if j not in p:
+        if j not in p and j != 'Ã' and j != 'Ô' and j != 'Ó' and j != 'Í':
             erro += 1   #adiciona 1 ao contador de erros
         
             if erro == 1:   #if para impressão das partes do boneco (Billy) conforme o usuário erra
@@ -202,13 +216,15 @@ while replay == True:
             elif erro == 6:
                 perna_esquerda()
                 jogo = False
-                replay = tkinter.messagebox.askyesno('Game Over', 'DIGA ADEUS PRO SEU AMIGUINHO BILLY\nEU SOU VITORIOSO (como sempre, claro)!!\nVocê perdeu, deseja jogar novamente?')
+                replay = tkinter.messagebox.askyesno('Game Over', 'DIGA ADEUS PARA O BILLY\nEU SOU VITORIOSO !!(como sempre, claro)\n\nVocê perdeu, deseja jogar novamente?')
                 t.clear()
                 print(replay)
+                le = le + [erro]
         if acerto == len(p) - esp:  #subtrai-se números de espaços da palavra, considando que espaço não seria uma resposta válida
             jogo = False
-            replay = tkinter.messagebox.askyesno('VITÓRIA', 'MALDITO!\nBILLY NÃO SAIRÁ VIVO NA PRÓXIMA!\nDeseja jogar novamente?')
+            replay = tkinter.messagebox.askyesno('VITÓRIA', 'MALDITO!\nBILLY NÃO SAIRÁ VIVO NA PRÓXIMA!\n\nDeseja jogar novamente?')
             t.clear()
             print(replay)
+            le = le + [erro]    #adiciona o valor de erros deste jogo à lista que será usada para calcular a média
      
 window.exitonclick()       
