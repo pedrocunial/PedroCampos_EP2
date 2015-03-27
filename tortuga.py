@@ -118,7 +118,7 @@ def media(lista):
         x = x / len(lista)
         x = str(x)
         t.pu()
-        t.setpos(100, 200)
+        t.setpos(80, 200)
         t.pd()
         t.write('Média de acertos para vitória:' +x, font=('Arial', '12'))
     
@@ -166,7 +166,7 @@ while replay == True:
             j = window.textinput("Jogada", "Escolha uma letra. \nMas escolha rápido, a menos que você prefira o Billy morto...") 
             #linha acima é para a entrada da jogada
             if j == None:
-                tkinter.messagebox.showwarning('ERRO', 'Você precisa entrar com uma letra,\na menos que você não se importe com o futuro de Billy...\nNão que ele tivesse futuro de qualquer jeito...')
+                window.bye() #caso o usuário clique em "cancel" o jogo será fechado
             j = j.upper()   #correção da jogada para caixa alta
             esp = p.count(' ')  
                         
