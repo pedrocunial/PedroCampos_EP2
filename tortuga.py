@@ -130,7 +130,6 @@ while replay == True:
     t.color("orange")
     t.shape("turtle")
     
-    print("playing")
     replay == False
     dic = open('entrada.txt', encoding= 'utf-8')
     dic = dic.readlines()
@@ -146,7 +145,6 @@ while replay == True:
     
     
     t.pu()
-    print(p)    
     t.setpos(-200,0)
     jogo = True
     erro = 0
@@ -159,7 +157,6 @@ while replay == True:
     media(le)
         
     while jogo == True:  
-        print("jogo true")
         aceita = False
         
         while aceita == False:     #loop caso a entrada não seja válida             
@@ -218,13 +215,11 @@ while replay == True:
                 jogo = False
                 replay = tkinter.messagebox.askyesno('Game Over', 'DIGA ADEUS PARA O BILLY\nEU SOU VITORIOSO !!(como sempre, claro)\n\nVocê perdeu, deseja jogar novamente?')
                 t.clear()
-                print(replay)
                 le = le + [erro]
         if acerto == len(p) - esp:  #subtrai-se números de espaços da palavra, considando que espaço não seria uma resposta válida
             jogo = False
             replay = tkinter.messagebox.askyesno('VITÓRIA', 'MALDITO!\nBILLY NÃO SAIRÁ VIVO NA PRÓXIMA!\n\nDeseja jogar novamente?')
             t.clear()
-            print(replay)
             le = le + [erro]    #adiciona o valor de erros deste jogo à lista que será usada para calcular a média
      
 window.exitonclick()       
