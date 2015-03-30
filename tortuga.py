@@ -120,10 +120,11 @@ def media(lista):
         t.pu()
         t.setpos(80, 200)
         t.pd()
-        t.write('Média de acertos para vitória:' +x, font=('Arial', '12'))
-        
-invalidos = ['1','2','3','4','5','6','7','8','9','0','!','@','#','$',',','%','¨','&','*','(',')','_','-','=','+','§','¹','²','³','£','¢',';',':','/','\'','|','°','?','¬','.',',','<','>','^','~',']','[','`','´','}','º','ª','{','']
-    
+        t.write('Média de erros para vitória:' +x, font=('Arial', '12'))
+        t.pu()
+   
+pusadas = ['x']        
+invalidos = ['1','2','3','4','5','6','7','8','9','0','!','@','#','$',',','%','¨','&','*','(',')','_','-','=','+','§','¹','²','³','£','¢',';',':','/','\'','|','°','?','¬','.',',','<','>','^','~',']','[','`','´','}','º','ª','{',''] 
 while replay == True:
     t   = turtle.Turtle()  # Cria um objeto "desenhador"
     t.speed(5)  # define a velocidade
@@ -135,7 +136,7 @@ while replay == True:
     replay == False
     dic = open('entrada.txt', encoding= 'utf-8')
     dic = dic.readlines()
-    
+    plivre = False
     for i in range(len(dic)-1): #por algum motivo o meu programa estava criando um valor ' ' (vazio) 
         dic[i] = dic[i].strip().upper()
         if dic[i] == '': #deletando o espaço vazio, no entanto isso cria um problema com o valor 'estônia', que assume 'estônia\n'
@@ -143,9 +144,16 @@ while replay == True:
         dic[i] = dic[i].strip().upper() #"reaplicando" o algoritmo para "limpar" o erro no valor 'estônia'
         
     print('Escolhas possíveis: ' ,dic)
-    p = random.choice(dic)
+    while plivre == False: #loop para conferir se a palavra a ser sorteada já foi usada
+        p = random.choice(dic)  #sorteia a palavra
+        if p not in pusadas:    #caso já tenha sido usada, entra no loop
+            plivre = True
+            pusadas += [p]
+        else: #caso contrário
+            plivre = False
     
-    
+    p2 = p.replace('Ã','A').replace('Ô','O').replace('Ó','O').replace('Í','I')  #corrige a palavra sem acentos para os brasileiros
+    print(p)        
     t.pu()
     t.setpos(-200,0)
     jogo = True
@@ -157,6 +165,7 @@ while replay == True:
     t.hideturtle()
     guesses = [ ]
     media(le)
+    chute = False
         
     while jogo == True:  
         aceita = False
@@ -169,56 +178,60 @@ while replay == True:
             j = j.upper()   #correção da jogada para caixa alta
             esp = p.count(' ')  
                         
-            if len(j) > 1: #caso o usuário entre com mais de uma letra
-                tkinter.messagebox.showerror('ERRO', 'Você digitou mais de uma letra, por favor, tente novamente...\nOu não... Eu adoraria enforcar este humano...')
+            if len(j) > 1: #caso o usuário entre com mais de uma letra o jogo o dará mais uma chance, caso seja um erro de digitação etc, ele pode clicar em 'não' e voltar a jogar, mas caso esteja tentando chutar a palavra o jogo reagirá propriamente
+                chute = tkinter.messagebox.askyesno('ATENÇÃO!', 'Então quer dizer que você acha que sabe a palavra?\nVou te dar mais uma chance, clique em Sim se realmente deseja chutar a palavra\nOu clique em Não, se for um frcassado como Billy...')
+                if chute == True:
+                    if j == p2: #caso a pessoa digite a palavra inteira corretamente ela ganha
+                        aceita = True                        
+                        jogo = False
+                        replay = tkinter.messagebox.askyesno('VITÓRIA', 'MALDITO!\nBILLY NÃO SAIRÁ VIVO NA PRÓXIMA!\n\nDeseja jogar novamente?')
+                        t.clear()
+                        le = le + [erro]
+                    else: #caso contrário...
+                        aceita = True                        
+                        jogo = False
+                        replay = tkinter.messagebox.askyesno('Game Over', 'DIGA ADEUS PARA O BILLY\nEU SOU VITORIOSO !!(como sempre, claro)\n\nVocê perdeu, deseja jogar novamente?')
+                        t.clear()
+                        le = le + [erro + 1] #é adicionado +1 ao valor de erros dessa rodada
+                else:
+                    tkinter.messagebox.showwarning('CUIDADO!', 'Huh, um engano?\n Não vá se acostumando, mas vou te dar mais uma chance...\nHumanos estúpidos...')
             elif j in guesses:
                 tkinter.messagebox.showerror('ERRO', 'Você já tentou essa letra, faça outra escolha!\nTEM GENTE TENTANDO MORRER AQUI!')
             elif j in invalidos:
-                tkinter.messagebox.showerror('ERRO', 'Você não sabe o que são letras?\Parece mais burro que o Billy!')
+                tkinter.messagebox.showerror('ERRO', 'Você não sabe o que são letras?\ndfParece mais burro que o Billy!')
             else:
                 aceita = True   #sai do loop caso a entrada seja válida
                 guesses += [j]
                 tentativas(len(guesses),j)
-        for i in range(len(p)):
-            if p[i] == j:
-                escrita(i,j)
-                acerto += 1
-            elif j == 'A' and p[i] == 'Ã': #facilitando a vida dos brasileiros...
-                escrita(i,p[i])
-                acerto += 1
-            elif j == 'O' and p[i] == 'Ô':
-                escrita(i,p[i])
-                acerto += 1
-            elif j == 'O' and p[i] == 'Ó':
-                escrita(i,p[i])
-                acerto += 1
-            elif j == 'I' and p[i] == 'Í':
-                escrita(i,p[i]) 
-                acerto += 1
-        if j not in p and j != 'Ã' and j != 'Ô' and j != 'Ó' and j != 'Í':
-            erro += 1   #adiciona 1 ao contador de erros
-        
-            if erro == 1:   #if para impressão das partes do boneco (Billy) conforme o usuário erra
-                cabeca()
-                tkinter.messagebox.showwarning('CUIDADO!', 'Me chamavam de quebra-cabeças na escola...\nHoje eu sei o porquê MUAHAHA')
-            elif erro == 2:
-                corpo()
-                tkinter.messagebox.showwarning('CUIDADO!', 'Nossa Billy, como você está magro!\nQuando foi a ultima vez que eu te dei comida?\nAh! Me lembrei! NUNCA! HAHAHAH')
-            elif erro == 3:
-                braco_direito()
-                tkinter.messagebox.showwarning('CUIDADO!', 'Tudo bem, Billy era destro...\nEu acho.')
-            elif erro == 4:
-                braco_esquerdo()
-                tkinter.messagebox.showwarning('CUIDADO!', 'Problema resolvido!\nSem os braços ele não é mais destro.')
-            elif erro == 5:
-                perna_direita()
-                tkinter.messagebox.showwarning('CUIDADO!', 'Só mais um errinho!!!')
-            elif erro == 6:
-                perna_esquerda()
-                jogo = False
-                replay = tkinter.messagebox.askyesno('Game Over', 'DIGA ADEUS PARA O BILLY\nEU SOU VITORIOSO !!(como sempre, claro)\n\nVocê perdeu, deseja jogar novamente?')
-                t.clear()
-                le = le + [erro]
+        if chute == False:
+            for i in range(len(p)):
+                if p[i] == j or p2[i] == j:
+                    escrita(i,j)
+                    acerto += 1
+            if j not in p and j != 'Ã' and j != 'Ô' and j != 'Ó' and j != 'Í':
+                erro += 1   #adiciona 1 ao contador de erros
+            
+                if erro == 1:   #if para impressão das partes do boneco (Billy) conforme o usuário erra
+                    cabeca()
+                    tkinter.messagebox.showwarning('CUIDADO!', 'Me chamavam de quebra-cabeças na escola...\nHoje eu sei o porquê MUAHAHA')
+                elif erro == 2:
+                    corpo()
+                    tkinter.messagebox.showwarning('CUIDADO!', 'Nossa Billy, como você está magro!\nQuando foi a ultima vez que eu te dei comida?\nAh! Me lembrei! NUNCA! HAHAHAH')
+                elif erro == 3:
+                    braco_direito()
+                    tkinter.messagebox.showwarning('CUIDADO!', 'Tudo bem, Billy era destro...\nEu acho.')
+                elif erro == 4:
+                    braco_esquerdo()
+                    tkinter.messagebox.showwarning('CUIDADO!', 'Problema resolvido!\nSem os braços ele não é mais destro.')
+                elif erro == 5:
+                    perna_direita()
+                    tkinter.messagebox.showwarning('CUIDADO!', 'Só mais um errinho!!!')
+                elif erro == 6:
+                    perna_esquerda()
+                    jogo = False
+                    replay = tkinter.messagebox.askyesno('Game Over', 'DIGA ADEUS PARA O BILLY\nEU SOU VITORIOSO !!(como sempre, claro)\n\nVocê perdeu, deseja jogar novamente?')
+                    t.clear()
+                    le = le + [erro]
         if acerto == len(p) - esp:  #subtrai-se números de espaços da palavra, considando que espaço não seria uma resposta válida
             jogo = False
             replay = tkinter.messagebox.askyesno('VITÓRIA', 'MALDITO!\nBILLY NÃO SAIRÁ VIVO NA PRÓXIMA!\n\nDeseja jogar novamente?')
