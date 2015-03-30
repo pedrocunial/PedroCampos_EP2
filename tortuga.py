@@ -9,6 +9,7 @@ import random
 import turtle
 import tkinter
 import time
+import string
 replay = True
 le = [] #criando uma lista vazia para contar os erros por jogo para calcular o número médio de erros
 window = turtle.Screen()    # cria uma janela
@@ -123,8 +124,10 @@ def media(lista):
         t.write('Média de erros para vitória:' +x, font=('Arial', '12'))
         t.pu()
  
-pusadas = ['x']  #cria a lista de palavras usadas para que o programa feche quando toda a lista já tenha sido usada      
-invalidos = ['1','2','3','4','5','6','7','8','9','0','!','@','#','$',',','%','¨','&','*','(',')','_','-','=','+','§','¹','²','³','£','¢',';',':','/','\'','|','°','?','¬','.',',','<','>','^','~',']','[','`','´','}','º','ª','{',''] 
+pusadas = ['x']  #cria a lista de palavras usadas para que o programa feche quando toda a lista já tenha sido usada       
+letras = list(string.ascii_uppercase)
+letras += ['Ç']
+
 while replay == True:
     t   = turtle.Turtle()  # Cria um objeto "desenhador"
     t.speed(5)  # define a velocidade
@@ -201,8 +204,8 @@ while replay == True:
                         tkinter.messagebox.showwarning('CUIDADO!', 'Huh, um engano?\n Não vá se acostumando, mas vou te dar mais uma chance...\nHumanos estúpidos...')
                 elif j in guesses:
                     tkinter.messagebox.showerror('ERRO', 'Você já tentou essa letra, faça outra escolha!\nTEM GENTE TENTANDO MORRER AQUI!')
-                elif j in invalidos:
-                    tkinter.messagebox.showerror('ERRO', 'Você não sabe o que são letras?\ndfParece mais burro que o Billy!')
+                elif j not in letras:
+                    tkinter.messagebox.showerror('ERRO', 'Você não sabe o que são letras?\nPare de entrar com essas estranhices!\n\nParece mais burro que o Billy!')
                 else:
                     aceita = True   #sai do loop caso a entrada seja válida
                     guesses += [j]
