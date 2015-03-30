@@ -158,7 +158,6 @@ while replay == True:
                 plivre = False
         
         p2 = p.replace('Ã','A').replace('Ô','O').replace('Ó','O').replace('Í','I')  #corrige a palavra sem acentos para os brasileiros
-        print(p)        
         t.pu()
         t.setpos(-200,0)
         jogo = True
@@ -240,7 +239,6 @@ while replay == True:
             if acerto == len(p) - esp:  #subtrai-se números de espaços da palavra, considando que espaço não seria uma resposta válida
                     jogo = False
                     replay = tkinter.messagebox.askyesno('VITÓRIA', 'MALDITO!\nBILLY NÃO SAIRÁ VIVO NA PRÓXIMA!\n\nDeseja jogar novamente?')
-                    print(len(pusadas))                
                     t.clear()
                     le = le + [erro]    #adiciona o valor de erros deste jogo à lista que será usada para calcular a média
          
