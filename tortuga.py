@@ -13,7 +13,7 @@ import string
 replay = True
 le = [] #criando uma lista vazia para contar os erros por jogo para calcular o número médio de erros
 window = turtle.Screen()    # cria uma janela
-window.bgcolor("white")
+window.bgcolor("black")
 window.title("Jogo")
     
 def forca():    #desenha a forca
@@ -133,7 +133,7 @@ while replay == True:
     t.speed(5)  # define a velocidade
     t.penup()       # Remova e veja o que acontece
     t.pendown()
-    t.color("orange")
+    t.color("white")
     t.shape("turtle")    
     replay == False
     dic = open('entrada.txt', encoding= 'utf-8')
@@ -211,11 +211,14 @@ while replay == True:
                     guesses += [j]
                     tentativas(len(guesses),j)
             if chute == False:
+                correto = False
                 for i in range(len(p)):
                     if p[i] == j or p2[i] == j:
-                        escrita(i,j)
+                        escrita(i,p[i])
                         acerto += 1
-                if j not in p and j != 'Ã' and j != 'Ô' and j != 'Ó' and j != 'Í':
+                        correto = True #define o palpite como correto
+                
+                if correto == False:    #caso o palpite esteja errado (não passou pelo "filtro" if anterior):
                     erro += 1   #adiciona 1 ao contador de erros
                 
                     if erro == 1:   #if para impressão das partes do boneco (Billy) conforme o usuário erra
