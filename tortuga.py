@@ -121,7 +121,7 @@ def media(lista):
         t.pu()
         t.setpos(80, 200)
         t.pd()
-        t.write('Média de erros para vitória:' +x, font=('Arial', '12'))
+        t.write('Média de erros por rodada:' +x, font=('Arial', '12'))
         t.pu()
  
 pusadas = ['x']  #cria a lista de palavras usadas para que o programa feche quando toda a lista já tenha sido usada       
