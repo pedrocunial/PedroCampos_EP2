@@ -187,7 +187,7 @@ while replay == True:
                 if len(j) > 1: #caso o usuário entre com mais de uma letra o jogo o dará mais uma chance, caso seja um erro de digitação etc, ele pode clicar em 'não' e voltar a jogar, mas caso esteja tentando chutar a palavra o jogo reagirá propriamente
                     chute = tkinter.messagebox.askyesno('ATENÇÃO!', 'Então quer dizer que você acha que sabe a palavra?\nVou te dar mais uma chance, clique em Sim se realmente deseja chutar a palavra\nOu clique em Não, se for um frcassado como Billy...')
                     if chute == True:
-                        if j == p2: #caso a pessoa digite a palavra inteira corretamente ela ganha
+                        if j == p2 or j == p: #caso a pessoa digite a palavra inteira corretamente ela ganha
                             aceita = True                        
                             jogo = False
                             replay = tkinter.messagebox.askyesno('VITÓRIA', 'MALDITO!\nBILLY NÃO SAIRÁ VIVO NA PRÓXIMA!\n\nDeseja jogar novamente?')
@@ -209,10 +209,11 @@ while replay == True:
                     aceita = True   #sai do loop caso a entrada seja válida
                     guesses += [j]
                     tentativas(len(guesses),j)
+            
             if chute == False:
                 correto = False
                 for i in range(len(p)):
-                    if p[i] == j or p2[i] == j:
+                    if p2[i] == j:
                         escrita(i,p[i])
                         acerto += 1
                         correto = True #define o palpite como correto
@@ -238,7 +239,7 @@ while replay == True:
                     elif erro == 6:
                         perna_esquerda()                    
                         jogo = False
-                        replay = tkinter.messagebox.askyesno('Game Over', 'DIGA ADEUS PARA O BILLY\nEU SOU VITORIOSO !!(como sempre, claro)\n\nVocê perdeu, deseja jogar novamente?')
+                        replay = tkinter.messagebox.askyesno('Game Over', 'DIGA ADEUS PARA O BILLY\nEU SOU VITORIOSO!! (como sempre, claro)\n\nVocê perdeu, deseja jogar novamente?')
                         t.clear()
                         le = le + [erro]
             if acerto == len(p) - esp:  #subtrai-se números de espaços da palavra, considando que espaço não seria uma resposta válida
