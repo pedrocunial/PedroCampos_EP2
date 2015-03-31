@@ -151,7 +151,6 @@ while replay == True:
         window.bye()    #não sei exatamente o porquê, mas fechar o programa só uma vez não foi suficiente
         window.bye()    #portanto, fechei duas.
     else:
-        print('Escolhas possíveis: ' ,dic)
         while plivre == False: #loop para conferir se a palavra a ser sorteada já foi usada
             p = random.choice(dic)  #sorteia a palavra
             if p not in pusadas:    #caso já tenha sido usada, entra no loop
